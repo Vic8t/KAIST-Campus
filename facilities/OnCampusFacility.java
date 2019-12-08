@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 enum OnCampusFacilityType {
     RESTAURANT,
     CAFETERIA,
@@ -16,17 +14,15 @@ public class OnCampusFacility extends Facility {
 
     private OnCampusFacilityType type;
     private String building;
-    private String additionalInfo;
 
-    public OnCampusFacility(int id, String name, String description, boolean isOnCampus, ArrayList<String> businessDays, OnCampusFacilityType type, String building, String additionalInfo) {
-        super(id, name, description, isOnCampus, businessDays);
-        this.type = type;
+    public OnCampusFacility(int id, String name, String description, String type, String building, String[] businessDays, String businessHours, boolean isOnCampus, String contactInfo) {
+        super(id, name, description, isOnCampus, businessDays, businessHours, contactInfo);
+        this.type = OnCampusFacilityType.valueOf(type);
         this.building = building;
-        this.additionalInfo = additionalInfo;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "\n" +  type + ", " + building + ", " + additionalInfo;
+        return super.toString() + "\n" +  type + " in " + building + "\n";
     }
 }
