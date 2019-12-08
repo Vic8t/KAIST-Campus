@@ -18,42 +18,41 @@ public class Facility {
     // private Image image;
     // private Icon icon;
     private boolean isOnCampus;
-    // private ArrayList<Day> businessDays;
+    private ArrayList<Day> businessDays;
 
-    public Facility(int id, String name, String description, boolean isOnCampus) {
+    public Facility(int id, String name, String description, boolean isOnCampus, ArrayList<String> days) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.isOnCampus = isOnCampus;
-        // this.businessDays = new ArrayList<Day>();
-        // for(String day : days){
-        //     businessDays.add(Day.valueOf(day));
-        // }
+        this.businessDays = new ArrayList<Day>();
+        for(String day : days){
+            businessDays.add(Day.valueOf(day));
+        }
     }
 
-    // public String displayBusinessDays(){
-    //     if(businessDays.size() == 7){
-    //         return "EVERYDAY";
-    //     }
-    //     else if(businessDays.size() == 5 && !businessDays.contains(Day.SATURDAY) && !businessDays.contains(Day.SUNDAY)){
-    //         return "MONDAY~FRIDAY";
-    //     }
-    //     else{
-    //         int i;
-    //         String days = "";
-    //         for(i = 0; i < businessDays.size(); i++){
-    //             days += businessDays.get(i);
-    //             if(i == businessDays.size() - 1){
-    //                 days += ", ";
-    //             }
-    //         }
-    //         return days;
-    //     }
-    // }
+    public String displayBusinessDays(){
+        if(businessDays.size() == 7){
+            return "EVERYDAY";
+        }
+        else if(businessDays.size() == 5 && !businessDays.contains(Day.SATURDAY) && !businessDays.contains(Day.SUNDAY)){
+            return "MONDAY~FRIDAY";
+        }
+        else{
+            String days = "";
+            for(int i = 0; i < businessDays.size(); i++){
+                days += businessDays.get(i);
+                if(i != businessDays.size() - 1){
+                    days += ", ";
+                }
+            }
+            return days;
+        }
+    }
 
     @Override
     public String toString() {
-        return id + ": " + name + " (" + description + ")"; // + "\n" +
-        // "Business days: " + displayBusinessDays();
+        return id + ": " + name + " (" + description + ")" + "\n" +
+        "Business days: " + displayBusinessDays();
     }
 }

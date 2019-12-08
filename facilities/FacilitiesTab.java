@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.io.*;
 
 public class FacilitiesTab {
 
@@ -10,6 +11,37 @@ public class FacilitiesTab {
         this.onCampusFacilities = new ArrayList<OnCampusFacility>();
         this.offCampusFacilities = new ArrayList<OffCampusFacility>();
         this.isTabOpen = false;
+    }
+
+    public void loadData(String file){
+        String line = "";
+        BufferedReader csvReader = null;
+
+        try {
+            csvReader = new BufferedReader(new FileReader(file));
+            while((line = csvReader.readLine()) != null){
+                String[] data = line.split(";");
+                for(int i = 0; i < data.length; i++)
+                    System.out.println(data[i]);
+            }
+
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (csvReader != null) {
+                try {
+                    csvReader.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void addOnCampusFacility(OnCampusFacility facility){
