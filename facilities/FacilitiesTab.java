@@ -33,10 +33,10 @@ public class FacilitiesTab {
                 String contact = data[8];
 
                 if(onCampus){
-                    addOnCampusFacility(new OnCampusFacility(id, name, description, type, location, days, hours, onCampus, contact));
+                    onCampusFacilities.add(new OnCampusFacility(id, name, description, type, location, days, hours, onCampus, contact));
                 }
                 else{
-                    addOffCampusFacility(new OffCampusFacility(id, name, description, type, location, days, hours, onCampus, contact));
+                    offCampusFacilities.add(new OffCampusFacility(id, name, description, type, location, days, hours, onCampus, contact));
                 }
             }
 
@@ -59,13 +59,12 @@ public class FacilitiesTab {
         }
     }
 
-    public void addOnCampusFacility(OnCampusFacility facility){
-        onCampusFacilities.add(facility);
-    }
+    // public ArrayList<OnCampusFacility> filterOnCampusFacilities(){
+    //     ArrayList<OnCampusFacility> filtered = new ArrayList<OnCampusFacility>();
+    //     for(OnCampusFacility facility : onCampusFacilities){
 
-    public void addOffCampusFacility(OffCampusFacility facility){
-        offCampusFacilities.add(facility);
-    }
+    //     }
+    // }
 
     public void displayOnCampusFacilities(){
         for(OnCampusFacility facility : onCampusFacilities){

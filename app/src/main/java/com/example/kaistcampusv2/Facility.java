@@ -18,9 +18,9 @@ public class Facility {
     private String name;
     private Bitmap image;
     private String description;
+    private ArrayList<Day> businessDays;
     private String businessHours;
     private String contactInfo;
-    private ArrayList<Day> businessDays;
     private boolean isOnCampus;
 
     public Facility(int id, String name, String description, boolean isOnCampus, String[] businessDays, String businessHours, String contactInfo) {
