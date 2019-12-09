@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class FacilityHolder extends RecyclerView.ViewHolder {
+public class OnCampusFacilityHolder extends RecyclerView.ViewHolder {
     private TextView name;
     private TextView type;
     private TextView description;
@@ -13,7 +13,7 @@ public class FacilityHolder extends RecyclerView.ViewHolder {
     private TextView hours;
     private TextView days;
 
-    public FacilityHolder(View itemView)
+    public OnCampusFacilityHolder(View itemView)
     {
         super(itemView);
         name = itemView.findViewById(R.id.txtName);
