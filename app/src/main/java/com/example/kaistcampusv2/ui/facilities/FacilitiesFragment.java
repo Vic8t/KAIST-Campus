@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,7 +51,8 @@ public class FacilitiesFragment extends Fragment {
         OnCampusFacility facility = new OnCampusFacility(0, "Something", "Doing stuff", "RESTAURANT", "69"
         , businesDays, "nEvEr", true, "4201337314");
         facilitiesArrayList.add(facility);
-
+        facilitiesArrayList.add(facility);
+        facilitiesArrayList.add(facility);
         adapter.notifyDataSetChanged();
     }
 }

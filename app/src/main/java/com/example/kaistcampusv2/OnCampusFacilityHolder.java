@@ -18,7 +18,7 @@ public class OnCampusFacilityHolder extends RecyclerView.ViewHolder {
         super(itemView);
         name = itemView.findViewById(R.id.txtName);
         type = itemView.findViewById(R.id.txtType);
-        description = itemView.findViewById(R.id.txtDesciption);
+        description = itemView.findViewById(R.id.txtDescription);
         building = itemView.findViewById(R.id.txtBuilding);
         hours = itemView.findViewById(R.id.txtHours);
         days = itemView.findViewById(R.id.txtDays);
