@@ -38,28 +38,6 @@ public class Facility {
         }
     }
 
-    public String businessDays(){
-        if(businessDays.size() == 7){
-            return "EVERYDAY";
-        }
-        else if(businessDays.size() == 6 && !businessDays.contains(Day.SUNDAY)){
-            return "MONDAY~FRIDAY, SATURDAY";
-        }
-        else if(businessDays.size() == 5 && !businessDays.contains(Day.SATURDAY) && !businessDays.contains(Day.SUNDAY)){
-            return "MONDAY~FRIDAY";
-        }
-        else {
-            String days = "";
-            for(int i = 0; i < businessDays.size(); i++){
-                days += businessDays.get(i);
-                if(i != businessDays.size() - 1){
-                    days += ", ";
-                }
-            }
-            return days;
-        }
-    }
-
     public int getId() {
         return id;
     }
@@ -97,8 +75,26 @@ public class Facility {
         return isOnCampus;
     }
 
-    public ArrayList<Day> getBusinessDays() {
-        return businessDays;
+    public String getBusinessDays(){
+        if(businessDays.size() == 7){
+            return "EVERYDAY";
+        }
+        else if(businessDays.size() == 6 && !businessDays.contains(Day.SUNDAY)){
+            return "MONDAY-FRIDAY, SATURDAY";
+        }
+        else if(businessDays.size() == 5 && !businessDays.contains(Day.SATURDAY) && !businessDays.contains(Day.SUNDAY)){
+            return "MONDAY-FRIDAY";
+        }
+        else {
+            String days = "";
+            for(int i = 0; i < businessDays.size(); i++){
+                days += businessDays.get(i);
+                if(i != businessDays.size() - 1){
+                    days += ", ";
+                }
+            }
+            return days;
+        }
     }
 
     public void setBusinessDays(ArrayList<Day> businessDays) {
@@ -124,6 +120,6 @@ public class Facility {
     @Override
     public String toString() {
         return id + ": " + name + "\n" + description + "\n" +
-                businessDays() + "\n" + businessHours;
+                getBusinessDays() + "\n" + businessHours;
     }
 }
