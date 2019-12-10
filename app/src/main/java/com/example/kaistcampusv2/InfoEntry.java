@@ -1,11 +1,13 @@
 package com.example.kaistcampusv2;
 
 public class InfoEntry {
-    private String title;
-    private String description;
+    public int id;
+    public String title;
+    public String description;
 
-    public InfoEntry(String title, String description)
+    public InfoEntry(int id, String title, String description)
     {
+        this.id = id;
         this.title = title;
         this.description = description;
     }

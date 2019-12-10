@@ -5,56 +5,69 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
-
-import com.example.kaistcampusv2.ui.facilities.FacilitiesFragment;
 import com.example.kaistcampusv2.ui.info.InfoFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.example.kaistcampusv2.dummy.DummyContent;
-
-import java.util.List;
+import java.util.ArrayList;
 
 public class ItemListActivity extends AppCompatActivity {
-
-    private boolean mTwoPane;
+    InfoSection clicked_section;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(InfoFragment.EXTRA_MESSAGE);
-        System.out.println(message);
+        String clicked_tab = intent.getStringExtra(InfoFragment.SECTION_TYPE);
+
+        if (clicked_tab != null)
+        {
+            switch (clicked_tab)
+            {
+                case "ACADEMIC":
+                    clicked_section = InfoFragment.academic_tab;
+                    break;
+                case "DORMITORY":
+                    clicked_section = InfoFragment.dorm_tab;
+                    break;
+                case "IMMIGRATION":
+                    clicked_section = InfoFragment.immigration_tab;
+                    break;
+                case "KOREA":
+                    clicked_section = InfoFragment.korea_tab;
+                    break;
+                case "FAQ":
+                    clicked_section = InfoFragment.faq_tab;
+                    break;
+                case "CHECKLIST":
+                    clicked_section = InfoFragment.checklist_tab;
+                    break;
+                case "CONTACT":
+                    clicked_section = InfoFragment.contact_tab;
+                    break;
+                case "INTERNET":
+                    clicked_section = InfoFragment.internet_tab;
+                    break;
+                 default:
+                     return;
+            }
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        if (findViewById(R.id.item_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
+        getSupportActionBar().setTitle(clicked_section.title);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
@@ -62,43 +75,32 @@ public class ItemListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, clicked_section.info_entries));
     }
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final ItemListActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
-        private final boolean mTwoPane;
+        private final ArrayList<InfoEntry> mValues;
+
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
-                if (mTwoPane) {
-                    Bundle arguments = new Bundle();
-                    arguments.putString(ItemDetailFragment.ARG_ITEM_ID, item.id);
-                    ItemDetailFragment fragment = new ItemDetailFragment();
-                    fragment.setArguments(arguments);
-                    mParentActivity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.item_detail_container, fragment)
-                            .commit();
-                } else {
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, ItemDetailActivity.class);
-                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id);
+                InfoEntry info_entry = (InfoEntry) view.getTag();
 
-                    context.startActivity(intent);
-                }
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ItemDetailActivity.class);
+                intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, String.valueOf(info_entry.id));
+                context.startActivity(intent);
             }
         };
 
         SimpleItemRecyclerViewAdapter(ItemListActivity parent,
-                                      List<DummyContent.DummyItem> items,
-                                      boolean twoPane) {
-            mValues = items;
+                                      ArrayList<InfoEntry> entries) {
+            mValues = entries;
             mParentActivity = parent;
-            mTwoPane = twoPane;
         }
 
         @Override
@@ -110,9 +112,7 @@ public class ItemListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
-
+            holder.mContentView.setText(mValues.get(position).title);
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
         }
@@ -123,14 +123,22 @@ public class ItemListActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
             final TextView mContentView;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            NavUtils.navigateUpTo(this, new Intent(this, InfoFragment.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
