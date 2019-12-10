@@ -13,6 +13,7 @@ app:cardElevation="6dp">
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="4dp">
+
     <TextView
         android:id="@+id/txtName"
         android:layout_width="match_parent"
