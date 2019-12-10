@@ -4,12 +4,14 @@ enum OnCampusFacilityType {
     RESTAURANT,
     CAFETERIA,
     CAFE,
-    DORMITORY,
+    LIBRARY,
     CONVENIENCE_STORE,
+    SHOP,
     SPORTS,
+    CULTURAL,
     MEDICAL,
     LANDMARK,
-    OTHER;
+    OTHER
 }
 
 public class OnCampusFacility extends Facility {
