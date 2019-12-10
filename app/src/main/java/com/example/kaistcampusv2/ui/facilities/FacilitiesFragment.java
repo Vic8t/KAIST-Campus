@@ -3,6 +3,9 @@ package com.example.kaistcampusv2.ui.facilities;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,18 +22,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kaistcampusv2.OnCampusFacility;
 import com.example.kaistcampusv2.OnCampusFacilityAdapter;
 import com.example.kaistcampusv2.R;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.io.*;
+import java.util.zip.Inflater;
 
 public class FacilitiesFragment extends Fragment {
     private FacilitiesViewModel facilitiesViewModel;
     private RecyclerView recyclerView;
+    private MaterialSearchView searchView;
     private OnCampusFacilityAdapter adapter;
     private ArrayList<OnCampusFacility> facilitiesArrayList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         facilitiesViewModel =
                 ViewModelProviders.of(this).get(FacilitiesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_facilities, container, false);
@@ -41,7 +48,17 @@ public class FacilitiesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         createListData();
 
+        searchView = root.findViewById(R.id.search_view);
+
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_item, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+        final MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
     }
 
     public void loadData(String file){
