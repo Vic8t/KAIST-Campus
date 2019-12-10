@@ -6,4 +6,12 @@
     <string name="title_info">General Info</string>
     <string name="title_item_list">Items</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="dormitory_button">Accommodation</string>
+    <string name="faq_button">FAQ</string>
+    <string name="immigration_button">Immigration</string>
+    <string name="checklist_button">Student Checklist</string>
+    <string name="academic_button">Academic</string>
+    <string name="intranet_button">KAIST Intranet</string>
+    <string name="korea_button">Korea at a Glance</string>
+    <string name="contact_button">Office Contact Info</string>
 </resources>
