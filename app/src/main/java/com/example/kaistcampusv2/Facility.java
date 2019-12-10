@@ -4,13 +4,9 @@ import android.graphics.Bitmap;
 import java.util.ArrayList;
 
 enum Day {
-    MONDAY,
-    TUESDAY,
-    WEDNESDAY,
-    THURSDAY,
-    FRIDAY,
+    WEEKDAYS,
     SATURDAY,
-    SUNDAY;
+    SUNDAY
 }
 
 public class Facility {
@@ -76,24 +72,15 @@ public class Facility {
     }
 
     public String getBusinessDays(){
-        if(businessDays.size() == 7){
-            return "EVERYDAY";
-        }
-        else if(businessDays.size() == 6 && !businessDays.contains(Day.SUNDAY)){
-            return "MONDAY-FRIDAY, SATURDAY";
-        }
-        else if(businessDays.size() == 5 && !businessDays.contains(Day.SATURDAY) && !businessDays.contains(Day.SUNDAY)){
-            return "MONDAY-FRIDAY";
-        }
-        else {
-            String days = "";
-            for(int i = 0; i < businessDays.size(); i++){
-                days += businessDays.get(i);
-                if(i != businessDays.size() - 1){
-                    days += ", ";
-                }
-            }
-            return days;
+        switch (businessDays.size()){
+            case 1:
+                return "Monday-Friday";
+            case 2:
+                return "Monday-Friday, Saturday";
+            case 3:
+                return "Everyday";
+            default:
+                return "";
         }
     }
 
