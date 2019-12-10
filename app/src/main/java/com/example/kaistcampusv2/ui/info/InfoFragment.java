@@ -6,22 +6,40 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.kaistcampusv2.InfoEntry;
+import com.example.kaistcampusv2.InfoSection;
 import com.example.kaistcampusv2.ItemListActivity;
-import com.example.kaistcampusv2.MainActivity;
 import com.example.kaistcampusv2.R;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 public class InfoFragment extends Fragment implements View.OnClickListener {
     public static final String INFO_FRAGMENT_MESSAGE = "com.example.kaist_campus.info_fragment.MESSAGE";
+    public static final String SECTION_TYPE = "com.example.kaist_campus.section_type.MESSAGE";
+    public static InfoSection checklist_tab;
+    public static InfoSection dorm_tab;
+    public static InfoSection faq_tab;
+    public static InfoSection immigration_tab;
+    public static InfoSection internet_tab;
+    public static InfoSection academic_tab;
+    public static InfoSection contact_tab;
+    public static InfoSection korea_tab;
+    public static ArrayList<InfoEntry> total_entries = new ArrayList<>();
+    public int entry_id = 0;
+
     private InfoViewModel infoViewModel;
 
+    private String[] checklist_sections = {"Student ID Card", "Orientation Program", "For Degree-Seeking Students"};
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         infoViewModel = ViewModelProviders.of(this).get(InfoViewModel.class);
@@ -45,63 +63,116 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         immigration_button.setOnClickListener(this);
         internet_button.setOnClickListener(this);
 
+        parse_info_section();
+
         return root;
     }
 
     public void onClick(View v)
     {
+        String type = "";
         switch(v.getId())
         {
             case R.id.academic_button:
             {
-                System.out.println("Academic button pressed");
+                type = "ACADEMIC";
                 break;
             }
 
             case R.id.dormitory_button:
             {
-                System.out.println("Dormitory button pressed");
+                type = "DORMITORY";
                 break;
             }
 
             case R.id.checklist_button:
             {
-                System.out.println("Checklist button pressed");
+                type = "CHECKLIST";
                 break;
             }
 
             case R.id.contact_button:
             {
-                System.out.println("Contact button pressed");
+                type = "CONTACT";
                 break;
             }
 
             case R.id.faq_button:
             {
-                System.out.println("FAQ button pressed");
+                type = "FAQ";
                 break;
             }
 
             case R.id.korea_button:
             {
-                System.out.println("Korea button pressed");
+                type = "KOREA";
                 break;
             }
 
             case R.id.immigration_button:
             {
-                System.out.println("Immigration button pressed");
+                type = "IMMIGRATION";
                 break;
             }
 
             case R.id.internet_button:
             {
-                System.out.println("Internet button pressed");
+                type = "INTERNET";
                 break;
             }
         }
+
         Intent intent = new Intent(this.getActivity(), ItemListActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, stuff);
+        intent.putExtra(SECTION_TYPE, type);
         startActivity(intent);
+    }
+
+    public String loadJSONFromAsset(String file_name) {
+        String json = null;
+        try {
+            InputStream is = getActivity().getAssets().open(file_name);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
+    public void parse_checklist(JSONObject infoObj)
+    {
+        try {
+            JSONObject checklist = infoObj.getJSONObject("New Student's Checklist");
+            ArrayList<InfoEntry> info_entries = new ArrayList<>();
+
+            for (String str: checklist_sections) {
+                String section_desc = checklist.getString(str);
+                InfoEntry section_entry = new InfoEntry(entry_id, str, section_desc);
+                info_entries.add(section_entry);
+                total_entries.add(section_entry);
+                entry_id++;
+            }
+
+            checklist_tab = new InfoSection("New Student's Checklist", info_entries);
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void parse_info_section()
+    {
+        try
+        {
+            JSONObject infoSectionObj = new JSONObject(loadJSONFromAsset("info_section.json"));
+            parse_checklist(infoSectionObj);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
