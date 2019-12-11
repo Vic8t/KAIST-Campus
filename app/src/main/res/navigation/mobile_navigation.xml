@@ -3,19 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_info">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.kaistcampusv2.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_info"
+        android:name="com.example.kaistcampusv2.ui.info.InfoFragment"
+        android:label="@string/title_info"
+        tools:layout="@layout/fragment_info" />
 
-    <fragment
-        android:id="@+id/navigation_facilities"
-        android:name="com.example.kaistcampusv2.ui.facilities.FacilitiesFragment"
-        android:label="@string/title_facilities"
-        tools:layout="@layout/fragment_facilities" />
     <fragment
         android:id="@+id/navigation_map"
         android:name="com.example.kaistcampusv2.ui.map.MapFragment"
@@ -23,8 +18,9 @@
         tools:layout="@layout/fragment_map" />
 
     <fragment
-        android:id="@+id/navigation_info"
-        android:name="com.example.kaistcampusv2.ui.info.InfoFragment"
-        android:label="@string/title_info"
-        tools:layout="@layout/fragment_info" />
+        android:id="@+id/navigation_facilities"
+        android:name="com.example.kaistcampusv2.ui.facilities.FacilitiesFragment"
+        android:label="@string/title_facilities"
+        tools:layout="@layout/fragment_facilities" />
+
 </navigation>

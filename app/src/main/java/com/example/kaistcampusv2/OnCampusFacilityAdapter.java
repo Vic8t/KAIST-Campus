@@ -11,13 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OnCampusFacilityAdapter extends RecyclerView.Adapter<OnCampusFacilityAdapter.OnCampusFacilityHolder> implements Filterable {
     private Context context;
-    private ArrayList<OnCampusFacility> facilities;
-    private ArrayList<OnCampusFacility> facilitiesFull;
+    private List<OnCampusFacility> facilities;
+    private List<OnCampusFacility> facilitiesFull;
 
-    public OnCampusFacilityAdapter(Context context, ArrayList<OnCampusFacility> facilities)
+    public OnCampusFacilityAdapter(Context context, List<OnCampusFacility> facilities)
     {
         this.context = context;
         this.facilities = facilities;
@@ -50,11 +51,13 @@ public class OnCampusFacilityAdapter extends RecyclerView.Adapter<OnCampusFacili
     private Filter facilitiesFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<OnCampusFacility> facilitiesMatched = new ArrayList<>();
+            List<OnCampusFacility> facilitiesMatched = new ArrayList<>();
+
             if(constraint == null || constraint.length() == 0){
                 facilitiesMatched.addAll(facilitiesFull);
             }
-            else{
+
+            else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for(OnCampusFacility facility : facilitiesFull){
@@ -71,7 +74,7 @@ public class OnCampusFacilityAdapter extends RecyclerView.Adapter<OnCampusFacili
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             facilities.clear();
-            facilities.addAll((ArrayList) results.values);
+            facilities.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };

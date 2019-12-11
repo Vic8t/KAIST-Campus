@@ -23,10 +23,12 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary" />
 
-        <com.miguelcatalan.materialsearchview.MaterialSearchView
+        <android.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:actionViewClass="android.widget.SearchView" />
+
     </FrameLayout>
 
 </LinearLayout>
