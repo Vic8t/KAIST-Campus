@@ -3,6 +3,7 @@ package com.example.kaistcampusv2;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.kaistcampusv2.ui.info.InfoFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -46,7 +47,9 @@ public class ItemDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            NavUtils.navigateUpTo(this, new Intent(this, ItemListActivity.class));
+            Intent returnToInfo = new Intent(this, ItemListActivity.class);
+            returnToInfo.putExtra(InfoFragment.SECTION_TYPE, InfoFragment.type);
+            NavUtils.navigateUpTo(this, returnToInfo);
             return true;
         }
         return super.onOptionsItemSelected(item);

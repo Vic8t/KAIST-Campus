@@ -17,7 +17,6 @@ public class ItemDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     private InfoEntry entry;
     public ItemDetailFragment() {
-
     }
 
     @Override

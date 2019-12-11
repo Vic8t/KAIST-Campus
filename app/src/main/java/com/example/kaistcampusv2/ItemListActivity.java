@@ -21,7 +21,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ItemListActivity extends AppCompatActivity {
-    InfoSection clicked_section;
+    public static InfoSection clicked_section;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +58,6 @@ public class ItemListActivity extends AppCompatActivity {
                 case "INTERNET":
                     clicked_section = InfoFragment.internet_tab;
                     break;
-                 default:
-                     return;
             }
         }
 
@@ -71,6 +69,7 @@ public class ItemListActivity extends AppCompatActivity {
 
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
+
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
@@ -83,7 +82,7 @@ public class ItemListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final ItemListActivity mParentActivity;
-        private final ArrayList<InfoEntry> mValues;
+        public final ArrayList<InfoEntry> mValues;
 
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
