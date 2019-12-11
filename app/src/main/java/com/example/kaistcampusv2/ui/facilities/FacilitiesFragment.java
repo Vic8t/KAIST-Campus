@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kaistcampusv2.MainActivity;
 import com.example.kaistcampusv2.OnCampusFacility;
 import com.example.kaistcampusv2.OnCampusFacilityAdapter;
 import com.example.kaistcampusv2.R;
@@ -49,6 +50,19 @@ public class FacilitiesFragment extends Fragment {
         createListData();
 
         searchView = root.findViewById(R.id.search_view);
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         return root;
     }

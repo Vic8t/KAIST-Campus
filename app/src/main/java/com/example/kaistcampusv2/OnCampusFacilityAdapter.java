@@ -3,6 +3,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,14 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class OnCampusFacilityAdapter extends RecyclerView.Adapter<OnCampusFacilityAdapter.OnCampusFacilityHolder> {
+public class OnCampusFacilityAdapter extends RecyclerView.Adapter<OnCampusFacilityAdapter.OnCampusFacilityHolder> implements Filterable {
     private Context context;
     private ArrayList<OnCampusFacility> facilities;
+    private ArrayList<OnCampusFacility> facilitiesFull;
 
     public OnCampusFacilityAdapter(Context context, ArrayList<OnCampusFacility> facilities)
     {
         this.context = context;
         this.facilities = facilities;
+        facilitiesFull = new ArrayList<>(facilities);
     }
 
     @NonNull
@@ -37,6 +41,40 @@ public class OnCampusFacilityAdapter extends RecyclerView.Adapter<OnCampusFacili
     public int getItemCount() {
         return facilities.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return facilitiesFilter;
+    }
+
+    private Filter facilitiesFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<OnCampusFacility> facilitiesMatched = new ArrayList<>();
+            if(constraint == null || constraint.length() == 0){
+                facilitiesMatched.addAll(facilitiesFull);
+            }
+            else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(OnCampusFacility facility : facilitiesFull){
+                    if(facility.getName().toLowerCase().contains(filterPattern))
+                        facilitiesMatched.add(facility);
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = facilitiesMatched;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            facilities.clear();
+            facilities.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     class OnCampusFacilityHolder extends RecyclerView.ViewHolder {
         private TextView name;
@@ -64,7 +102,7 @@ public class OnCampusFacilityAdapter extends RecyclerView.Adapter<OnCampusFacili
             description.setText(facility.getDescription());
             building.setText(facility.getBuilding());
             hours.setText(facility.getBusinessHours());
-            days.setText(facility.getBusinessDays().toString());
+            days.setText(facility.getBusinessDays());
         }
     }
 }
