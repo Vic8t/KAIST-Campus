@@ -3,44 +3,69 @@ package com.example.kaistcampusv2.ui.facilities;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import androidx.annotation.Nullable;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.kaistcampusv2.OnCampusFacility;
 import com.example.kaistcampusv2.OnCampusFacilityAdapter;
 import com.example.kaistcampusv2.R;
-
 import java.util.ArrayList;
 import java.io.*;
+import java.util.List;
 
 public class FacilitiesFragment extends Fragment {
     private FacilitiesViewModel facilitiesViewModel;
     private RecyclerView recyclerView;
     private OnCampusFacilityAdapter adapter;
-    private ArrayList<OnCampusFacility> facilitiesArrayList;
+    private List<OnCampusFacility> facilitiesList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         facilitiesViewModel =
                 ViewModelProviders.of(this).get(FacilitiesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_facilities, container, false);
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        facilitiesArrayList = new ArrayList<>();
-        adapter = new OnCampusFacilityAdapter(this.getContext(), facilitiesArrayList);
-        recyclerView.setAdapter(adapter);
+        facilitiesList = new ArrayList<>();
         createListData();
-
+        adapter = new OnCampusFacilityAdapter(this.getContext(), facilitiesList);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_item, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
     }
 
     public void loadData(String file){
@@ -51,7 +76,6 @@ public class FacilitiesFragment extends Fragment {
         try {
             InputStream inputStream = assetManager.open(file);
             csvReader = new BufferedReader(new InputStreamReader(inputStream));
-            // csvReader = new BufferedReader(new FileReader(file));
             while((line = csvReader.readLine()) != null){
                 String[] data = line.split(";");
 
@@ -65,7 +89,7 @@ public class FacilitiesFragment extends Fragment {
                 boolean onCampus = (data[7].equals("1"));
                 String contact = data[8];
 
-                facilitiesArrayList.add(new OnCampusFacility(id, name, description, type, location, days, hours, onCampus, contact));
+                facilitiesList.add(new OnCampusFacility(id, name, description, type, location, days, hours, onCampus, contact));
             }
 
         }
@@ -90,6 +114,5 @@ public class FacilitiesFragment extends Fragment {
     private void createListData()
     {
         loadData("facilities.csv");
-        adapter.notifyDataSetChanged();
     }
 }
