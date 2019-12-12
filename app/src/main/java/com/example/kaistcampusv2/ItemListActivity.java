@@ -61,7 +61,7 @@ public class ItemListActivity extends AppCompatActivity {
             }
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(clicked_section.title);
         ActionBar actionBar = getSupportActionBar();
@@ -82,7 +82,7 @@ public class ItemListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final ItemListActivity mParentActivity;
-        public final ArrayList<InfoEntry> mValues;
+        final ArrayList<InfoEntry> mValues;
 
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
@@ -126,7 +126,7 @@ public class ItemListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                mContentView = view.findViewById(R.id.content);
             }
         }
     }

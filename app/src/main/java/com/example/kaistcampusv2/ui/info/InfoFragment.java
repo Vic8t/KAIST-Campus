@@ -12,7 +12,6 @@ import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.kaistcampusv2.InfoEntry;
 import com.example.kaistcampusv2.InfoSection;
@@ -24,7 +23,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class InfoFragment extends Fragment implements View.OnClickListener {
-    public static final String INFO_FRAGMENT_MESSAGE = "com.example.kaist_campus.info_fragment.MESSAGE";
     public static final String SECTION_TYPE = "com.example.kaist_campus.section_type.MESSAGE";
     public static InfoSection checklist_tab;
     public static InfoSection dorm_tab;
@@ -36,9 +34,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
     public static InfoSection korea_tab;
     public static String type;
     public static ArrayList<InfoEntry> total_entries = new ArrayList<>();
-    public int entry_id = 0;
-
-    private InfoViewModel infoViewModel;
+    private int entry_id = 0;
 
     private String[] checklist_sections = {"Student ID Card", "Orientation Program", "For Degree-Seeking Students",
     "For Exchange Students", "For Interns/Visiting Students"};
@@ -53,17 +49,16 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        infoViewModel = ViewModelProviders.of(this).get(InfoViewModel.class);
         View root = inflater.inflate(R.layout.fragment_info, container, false);
 
-        Button academic_button = (Button) root.findViewById(R.id.academic_button);
-        Button dormitory_button = (Button) root.findViewById(R.id.dormitory_button);
-        Button checklist_button = (Button) root.findViewById(R.id.checklist_button);
-        Button contact_button = (Button) root.findViewById(R.id.contact_button);
-        Button faq_button = (Button) root.findViewById(R.id.faq_button);
-        Button korea_button = (Button) root.findViewById(R.id.korea_button);
-        Button immigration_button = (Button) root.findViewById(R.id.immigration_button);
-        Button internet_button = (Button) root.findViewById(R.id.internet_button);
+        Button academic_button = root.findViewById(R.id.academic_button);
+        Button dormitory_button = root.findViewById(R.id.dormitory_button);
+        Button checklist_button = root.findViewById(R.id.checklist_button);
+        Button contact_button = root.findViewById(R.id.contact_button);
+        Button faq_button = root.findViewById(R.id.faq_button);
+        Button korea_button = root.findViewById(R.id.korea_button);
+        Button immigration_button = root.findViewById(R.id.immigration_button);
+        Button internet_button = root.findViewById(R.id.internet_button);
 
         academic_button.setOnClickListener(this);
         dormitory_button.setOnClickListener(this);
@@ -81,65 +76,64 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
 
     public void onClick(View v)
     {
-        String type = "";
         switch(v.getId())
         {
             case R.id.academic_button:
             {
-                this.type = "ACADEMIC";
+                type = "ACADEMIC";
                 break;
             }
 
             case R.id.dormitory_button:
             {
-                this.type = "DORMITORY";
+                type = "DORMITORY";
                 break;
             }
 
             case R.id.checklist_button:
             {
-                this.type = "CHECKLIST";
+                type = "CHECKLIST";
                 break;
             }
 
             case R.id.contact_button:
             {
-                this.type = "CONTACT";
+                type = "CONTACT";
                 break;
             }
 
             case R.id.faq_button:
             {
-                this.type = "FAQ";
+                type = "FAQ";
                 break;
             }
 
             case R.id.korea_button:
             {
-                this.type = "KOREA";
+                type = "KOREA";
                 break;
             }
 
             case R.id.immigration_button:
             {
-                this.type = "IMMIGRATION";
+                type = "IMMIGRATION";
                 break;
             }
 
             case R.id.internet_button:
             {
-                this.type = "INTERNET";
+                type = "INTERNET";
                 break;
             }
         }
 
         Intent intent = new Intent(this.getActivity(), ItemListActivity.class);
-        intent.putExtra(SECTION_TYPE, this.type);
+        intent.putExtra(SECTION_TYPE, type);
         startActivity(intent);
     }
 
-    public String loadJSONFromAsset(String file_name) {
-        String json = null;
+    private String loadJSONFromAsset(String file_name) {
+        String json ;
         try {
             InputStream is = getActivity().getAssets().open(file_name);
             int size = is.available();
@@ -154,7 +148,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         return json;
     }
 
-    public void parse_checklist(JSONObject infoObj)
+    private void parse_checklist(JSONObject infoObj)
     {
         try {
             JSONObject checklist = infoObj.getJSONObject("New Student's Checklist");
@@ -175,7 +169,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void parse_contact(JSONObject infoObj)
+    private void parse_contact(JSONObject infoObj)
     {
         try {
             JSONObject contact = infoObj.getJSONObject("Office Contact Info");
@@ -196,7 +190,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void parse_korea(JSONObject infoObj)
+    private void parse_korea(JSONObject infoObj)
     {
         try {
             JSONObject contact = infoObj.getJSONObject("Korea at a Glance");
@@ -217,7 +211,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void parse_dorm(JSONObject infoObj)
+    private void parse_dorm(JSONObject infoObj)
     {
         try {
             JSONObject accommodation = infoObj.getJSONObject("Accommodation");
@@ -238,7 +232,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void parse_internet(JSONObject infoObj)
+    private void parse_internet(JSONObject infoObj)
     {
         try {
             JSONObject intranet = infoObj.getJSONObject("KAIST Intranet");
@@ -259,7 +253,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void parse_academic(JSONObject infoObj)
+    private void parse_academic(JSONObject infoObj)
     {
         try {
             JSONObject academic = infoObj.getJSONObject("Academic");
@@ -280,7 +274,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void parse_immigration(JSONObject infoObj)
+    private void parse_immigration(JSONObject infoObj)
     {
         try {
             JSONObject immigration = infoObj.getJSONObject("Immigration");
@@ -301,7 +295,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void parse_faq(JSONObject infoObj)
+    private void parse_faq(JSONObject infoObj)
     {
         try {
             JSONObject faq = infoObj.getJSONObject("FAQ");
@@ -322,7 +316,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void parse_info_section()
+    private void parse_info_section()
     {
         try
         {

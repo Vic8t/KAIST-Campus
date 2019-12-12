@@ -13,7 +13,6 @@ import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.kaistcampusv2.OnCampusFacility;
@@ -24,7 +23,6 @@ import java.io.*;
 import java.util.List;
 
 public class FacilitiesFragment extends Fragment {
-    private FacilitiesViewModel facilitiesViewModel;
     private RecyclerView recyclerView;
     private OnCampusFacilityAdapter adapter;
     private List<OnCampusFacility> facilitiesList;
@@ -32,10 +30,8 @@ public class FacilitiesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        facilitiesViewModel =
-                ViewModelProviders.of(this).get(FacilitiesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_facilities, container, false);
-        recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
+        recyclerView = root.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         facilitiesList = new ArrayList<>();
         createListData();
@@ -68,7 +64,7 @@ public class FacilitiesFragment extends Fragment {
 
     }
 
-    public void loadData(String file){
+    private void loadData(String file){
         String line;
         BufferedReader csvReader = null;
         AssetManager assetManager = getResources().getAssets();

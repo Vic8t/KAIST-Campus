@@ -89,7 +89,7 @@ public class OnCampusFacilityAdapter extends RecyclerView.Adapter<OnCampusFacili
         private TextView hours;
         private TextView days;
 
-        public OnCampusFacilityHolder(View itemView)
+        OnCampusFacilityHolder(View itemView)
         {
             super(itemView);
             name = itemView.findViewById(R.id.txtName);

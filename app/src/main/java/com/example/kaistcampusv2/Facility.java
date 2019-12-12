@@ -19,12 +19,12 @@ public class Facility {
     private String contactInfo;
     private boolean isOnCampus;
 
-    public Facility(int id, String name, String description, boolean isOnCampus, String[] businessDays, String businessHours, String contactInfo) {
+    Facility(int id, String name, String description, boolean isOnCampus, String[] businessDays, String businessHours, String contactInfo) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.isOnCampus = isOnCampus;
-        this.businessDays = new ArrayList<Day>();
+        this.businessDays = new ArrayList<>();
         this.businessHours = businessHours;
         this.contactInfo = contactInfo;
 
@@ -51,7 +51,7 @@ public class Facility {
         this.name = name;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return description;
     }
 
@@ -71,7 +71,7 @@ public class Facility {
         return isOnCampus;
     }
 
-    public String getBusinessDays(){
+    String getBusinessDays(){
         switch (businessDays.size()){
             case 1:
                 return "Monday-Friday";

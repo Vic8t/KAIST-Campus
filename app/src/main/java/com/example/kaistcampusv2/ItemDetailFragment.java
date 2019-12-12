@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class ItemDetailFragment extends Fragment {
-    public static final String ARG_ITEM_ID = "item_id";
+    static final String ARG_ITEM_ID = "item_id";
     private InfoEntry entry;
     public ItemDetailFragment() {
     }
@@ -25,7 +25,7 @@ public class ItemDetailFragment extends Fragment {
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
             System.out.println(getArguments().getString(ARG_ITEM_ID));
             entry = InfoFragment.total_entries.get(Integer.parseInt(getArguments().getString(ARG_ITEM_ID)));
 

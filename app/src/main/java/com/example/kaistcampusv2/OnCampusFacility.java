@@ -24,7 +24,7 @@ public class OnCampusFacility extends Facility {
         this.building = building;
     }
 
-    public String getBuilding() {
+    String getBuilding() {
         return building;
     }
 
