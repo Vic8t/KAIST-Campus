@@ -62,7 +62,7 @@ public class OnCampusFacilityAdapter extends RecyclerView.Adapter<OnCampusFacili
 
                 for(OnCampusFacility facility : facilitiesFull){
                     if(facility.getName().toLowerCase().contains(filterPattern)
-                    || facility.getBuilding().toLowerCase().contains(filterPattern)
+                    || facility.getBuilding().toLowerCase().equals(filterPattern)
                     || facility.getType().toString().toLowerCase().contains(filterPattern))
                         facilitiesMatched.add(facility);
                 }
